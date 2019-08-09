@@ -8,41 +8,41 @@ let privateKey = null
 
 /** Webworker onmessage listener */
 onmessage = function(e) {
-  const [ messageType, messageId, text, key ] = e.data
-  let result
-  switch (messageType) {
-    case 'generate-keys':
-      result = generateKeypair()
-      break
-    case 'encrypt':
-      result = encrypt(text, key)
-      break
-    case 'decrypt':
-      result = decrypt(text)
-      break
-  }
+	const [ messageType, messageId, text, key ] = e.data
+	let result
+	switch (messageType) {
+		case 'generate-keys':
+			result = generateKeypair()
+			break
+		case 'encrypt':
+			result = encrypt(text, key)
+			break
+		case 'decrypt':
+			result = decrypt(text)
+			break
+	}
 
-  // Return result to the UI thread
-  postMessage([ messageId, result ])
+	// Return result to the UI thread
+	postMessage([ messageId, result ])
 }
 
 /** Generate and store keypair */
 function generateKeypair () {
-  crypt = new JSEncrypt({default_key_size: 2056})
-  privateKey = crypt.getPrivateKey()
+	crypt = new JSEncrypt({default_key_size: 2056})
+	privateKey = crypt.getPrivateKey()
 
-  // Only return the public key, keep the private key hidden
-  return crypt.getPublicKey()
+	// Only return the public key, keep the private key hidden
+	return crypt.getPublicKey()
 }
 
 /** Encrypt the provided string with the destination public key */
 function encrypt (content, publicKey) {
-  crypt.setKey(publicKey)
-  return crypt.encrypt(content)
+	crypt.setKey(publicKey)
+	return crypt.encrypt(content)
 }
 
 /** Decrypt the provided string with the local private key */
 function decrypt (content) {
-  crypt.setKey(privateKey)
-  return crypt.decrypt(content)
+	crypt.setKey(privateKey)
+	return crypt.decrypt(content)
 }
