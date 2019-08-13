@@ -11,6 +11,7 @@ const vm = new Vue ({
 			notifications: [],
 			currentRoom: null,
 			pendingRoom: Math.floor(Math.random() * 1000),
+			pendingUser: "Default",
 			draft: ''
 		}
 	},
