@@ -11,7 +11,7 @@ const vm = new Vue ({
 			notifications: [],
 			currentRoom: null,
 			pendingRoom: Math.floor(Math.random() * 1000),
-			pendingUser: "Default",
+			pendingUser: 'Default',
 			draft: ''
 		}
 	},
@@ -22,9 +22,10 @@ const vm = new Vue ({
 		this.cryptWorker = new Worker('crypto-worker.js')
 
 		// Generate keypair and join default room
+		console.log(this.pendingUser)
 		this.originPublicKey = await this.getWebWorkerResponse('generate-keys')
 		this.addNotification(`Keypair Generated - ${this.getKeySnippet(this.originPublicKey)}`)
-
+		this.addNotification(`User Name - ${this.pendingUser}`)
 		// Initialize socketio
 		this.socket = io()
 		this.setupSocketListeners()
@@ -157,7 +158,7 @@ const vm = new Vue ({
 				this.cryptWorker.postMessage([messageType, messageId].concat(messagePayload))
 
 				// Create a handler for the webworker message event
-				const handler = function (e) {
+				const handler =  (e) => {
 					// Only handle messages with the matching message id
 					if (e.data[0] === messageId) {
 						// Remove the event listener once the listener has been called.
