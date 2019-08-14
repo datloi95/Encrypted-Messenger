@@ -1,2 +1,2 @@
 # Encrypted-Messenger
-My implementation following Patrick Triest tutorial (https://github.com/triestpa/Open-Cryptochat)
+My implementation following Patrick Triest tutorial (https://blog.patricktriest.com/building-an-encrypted-messenger-with-javascript/)
