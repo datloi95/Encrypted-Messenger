@@ -19,7 +19,7 @@
         <div class="message-list">
           <div class="message full-width" v-for="message in messages">
             <p>
-              <span v-bind:class="(message.sender == originPublicKey) ? 'green' : 'red'">{{ getKeySnippet(message.sender) }}</span>
+              <span v-bind:class="(message.sender == pendingUser) ? 'green' : 'red'">{{ getKeySnippet(message.sender) }}</span>
               > {{ message.text }}
             </p>
           </div>

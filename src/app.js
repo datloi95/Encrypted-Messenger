@@ -1,14 +1,23 @@
 const express = require('express')
 
-// Setup Express server
+// Setup Express server and other libraries
 const app = express()
 const http = require('http').Server(app)
+const fs = require('fs')
+const path = require('path')
+
+
 
 // Attach Socket.io to server
 const io = require('socket.io')(http)
 
+
 // Serve web app directory
 app.use(express.static('public'))
+
+app.get('/chat', function(req, res) {
+	res.sendfile('./public/index.html');
+ });
 
 /** Manage behavior of each client socket connection */
 io.on('connection', (socket) => {
@@ -69,6 +78,6 @@ io.on('connection', (socket) => {
 
 // Start server
 const port = process.env.PORT || 3000
-http.listen(3000, () => {
+http.listen(port, () => {
 	console.log(`Chat server listening on port ${port}.`)
 })

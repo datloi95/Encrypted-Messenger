@@ -135,6 +135,10 @@ const vm = new Vue ({
 			}
 		},
 
+		joinUser() {
+			this.addNotification(`Connecting with User - ${this.pendingUser}`)
+		},
+
 		/** Add message to UI, and scroll the view to display the new message. */
 		addMessage (message) {
 			this.messages.push(message)
