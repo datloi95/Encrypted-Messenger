@@ -70,10 +70,23 @@ io.on('connection', (socket) => {
 	socket.broadcast.to(currentRoom).emit('PUBLIC_KEY', key)
 	})
 
+	/** Broacast image to the room */
+	socket.on('upload-image', function (message) {
+
+        var writer = fs.createWriteStream(path.resolve(__dirname, './tmp/' + message.name), {encoding: 'base64'});
+        writer.write(message.data);
+        writer.end();
+        writer.on('finish', () => {
+									socket.broadcast.to(currentRoom).emit('image-uploaded', {name: '/tmp/' + message.name});
+                                    });
+
+		});
+		
 	/** Broadcast a disconnection notification to the room */
 	socket.on('disconnect', () => {
 	socket.broadcast.to(currentRoom).emit('USER_DISCONNECTED', null)
 	})
+	
 })
 
 // Start server
