@@ -1,3 +1,25 @@
+// var file = document.getElementById('my-file');
+
+// file.addEventListener('change', () => {
+// 	if (!file.files.length) {
+// 		return;
+// 	}
+
+// 	var firstFile = file.files[0],
+// 	reader = new FileReader();
+
+// 	reader.onloadend = () => {
+// 		socket.emit('upload-image', {
+// 			name: firstFile.name,
+// 			data: reader.result
+// 			});
+// 	};
+
+// 	reader.readAsArrayBuffer(firstFile);
+// });
+
+
+
 /** The core Vue instance controlling the UI */
 const vm = new Vue ({
 	el: '#vue-instance',
@@ -12,6 +34,7 @@ const vm = new Vue ({
 			currentRoom: null,
 			pendingRoom: Math.floor(Math.random() * 1000),
 			pendingUser: 'Default',
+			pendingFile: null,
 			draft: ''
 		}
 	},
@@ -90,6 +113,15 @@ const vm = new Vue ({
 			this.socket.on('INTRUSION_ATTEMPT', () => {
 				this.addNotification('A third user attempted to join the room.')
 			})
+
+			// upload image
+			this.socket.on('image-uploaded', (message) => {
+				varimg = document.createElement('img');
+				var img = new Image()
+				img.setAttribute('src', message.name);
+				img.setAttribute('height', '100px');
+				document.body.appendChild(img);
+			})
 		},
 
 		/** Encrypt and emit the current draft message */
@@ -137,6 +169,27 @@ const vm = new Vue ({
 
 		joinUser() {
 			this.addNotification(`Connecting with User - ${this.pendingUser}`)
+		},
+
+		joinFile() {
+			this.addNotification(`Connecting with User - ${this.pendingUser}`)
+			this.pendingFile.addEventListener('change', () => {
+				if (!this.pendingFile.files.length) {
+					return;
+				}
+			
+				var firstFile = this.pendingFile.files[0],
+				reader = new FileReader();
+			
+				reader.onloadend = () => {
+					socket.emit('upload-image', {
+						name: firstFile.name,
+						data: reader.result
+						});
+				};
+			
+				reader.readAsArrayBuffer(firstFile);
+			});
 		},
 
 		/** Add message to UI, and scroll the view to display the new message. */

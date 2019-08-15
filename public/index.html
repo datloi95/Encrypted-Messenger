@@ -32,12 +32,21 @@
         <input class="yellow-button full-width" type="submit" v-on:click="joinRoom()" value="JOIN">
       </div>
       <div class="divider"></div>
+
       <h1>USER NAME</h1>
       <div class="user-select">
         <input type="text" class="full-width" placeholder="User name" id="user-input" v-model="pendingUser" @keyup.enter="joinUser()">
         <input class="yellow-button full-width" type="submit" v-on:click="joinUser()" value="NAME">
       </div>
       <div class="divider"></div>
+
+      <h1>UPLOAD IMAGE</h1>
+      <div class="user-select">
+        <input type="file" class="full-width" placeholder="User name" id="user-file" v-model="pendingFile" @keyup.enter="joinFile()">
+        <input class="yellow-button full-width" type="submit" v-on:click="joinFile()" value="FILE">
+      </div>
+      <div class="divider"></div>
+
       <div class="notification-list" ref="notificationContainer">
         <h1>NOTIFICATION LOG</h1>
         <div class="notification full-width" v-for="notification in notifications">
